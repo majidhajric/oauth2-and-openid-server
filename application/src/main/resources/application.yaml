@@ -13,7 +13,9 @@ spring:
 
   h2:
     console:
-      enabled: true  # Enable H2 console (for development purposes)
+      enabled: false
+      path: /h2-console
+
 
 logging:
   level:
