@@ -7,7 +7,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -18,9 +17,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/index")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/index.html")).permitAll()
+                        auth
+                                .requestMatchers("/my-h2-console/**").permitAll()
+                                .requestMatchers("/css/**", "/js/**").permitAll()
+                                .requestMatchers("/login", "/login?**", "/login.html").permitAll()
+                                .requestMatchers( "/", "/index?**", "index.html").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(config -> config.loginPage("/login")
                         .permitAll()

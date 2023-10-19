@@ -20,6 +20,7 @@
 
 	<modules>
 		<module>application</module>
+		<module>tailwind-css</module>
 	</modules>
 
 </project>
