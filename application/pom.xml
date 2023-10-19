@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>oauth2-and-openid-server-application</artifactId>
-	<name>oauth2-and-openid-server-application</name>
+	<name>web-application</name>
 
 	<dependencies>
 		<dependency>
