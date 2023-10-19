@@ -24,8 +24,17 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <executable>bash -c build.sh</executable>
+                    <executable>./build.sh</executable>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

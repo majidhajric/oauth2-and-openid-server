@@ -18,6 +18,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth ->
                         auth
+                                .requestMatchers("/favicon.**").permitAll()
                                 .requestMatchers("/my-h2-console/**").permitAll()
                                 .requestMatchers("/css/**", "/js/**").permitAll()
                                 .requestMatchers("/login", "/login?**", "/login.html").permitAll()
