@@ -8,10 +8,15 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>oauth2-and-openid-server-application</artifactId>
+	<artifactId>web-application</artifactId>
 	<name>web-application</name>
 
 	<dependencies>
+		<dependency>
+			<groupId>dev.majidhajric</groupId>
+			<artifactId>rest-api</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
