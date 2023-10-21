@@ -5,6 +5,11 @@ spring:
   application:
     name: authify
 
+  security:
+    user:
+      name: user
+      password: password
+
   datasource:
     driverClassName: org.h2.Driver
     url: jdbc:h2:mem:testdb
@@ -19,7 +24,8 @@ spring:
 
 logging:
   level:
+    org.springframework: debug
     org.springframework.security: debug
     org.springframework.web: debug
     dev.majidhajric.authify: debug
-    org.hibernate: debug
+    org.hibernate: info
