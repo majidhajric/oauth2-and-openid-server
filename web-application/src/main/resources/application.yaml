@@ -5,9 +5,6 @@ server:
       enabled: false
     path: /error
 
-servlet:
-  context-path: /
-
 spring:
   application:
     name: authify

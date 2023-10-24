@@ -8,8 +8,10 @@ import org.springframework.security.authentication.DefaultAuthenticationEventPub
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
@@ -29,9 +31,9 @@ public class WebSecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/css/**"), mvcMatcherBuilder.pattern("/js/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/login**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/logout**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/registration**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/register**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/error**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/account**")).hasAnyRole("USER", "ADMIN")
-                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).fullyAuthenticated()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(config -> config
@@ -53,6 +55,13 @@ public class WebSecurityConfig {
                         .expiredUrl("/login?expired=true"));
         http.anonymous(Customizer.withDefaults());
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowBackSlash(true);
+        return (web) -> web.httpFirewall(firewall);
     }
 
     @Bean
