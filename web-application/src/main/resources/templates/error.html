@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Wellcome</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<p>There seems to be a problem with the page you requested (<span th:text="${path}"></span>).</p>
+<p th:text="${'The status code is ' + status + ', which means that the page was ' + error + '.'}"></p>
+<p th:text="${'Further details: ' + message + '.'}"></p>
+<p th:utext="${errorMessage}">Error message</p>
+<a href="account" sec:authorize="isAuthenticated()" th:href="@{/account.html}">Back to Account page</a>
+<a href="login" sec:authorize="!isAuthenticated()" th:href="@{/login.html}">Back to Log In page</a>
+</body>
+</html>
