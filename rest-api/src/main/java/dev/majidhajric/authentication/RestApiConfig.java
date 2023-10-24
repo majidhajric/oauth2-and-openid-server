@@ -1,4 +1,4 @@
-package dev.majidhajric.authify;
+package dev.majidhajric.authentication;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

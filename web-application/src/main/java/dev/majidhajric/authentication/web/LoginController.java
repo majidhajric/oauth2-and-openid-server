@@ -1,4 +1,4 @@
-package dev.majidhajric.authify.web;
+package dev.majidhajric.authentication.web;
 
 import org.springframework.stereotype.Controller;
 

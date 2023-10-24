@@ -1,4 +1,4 @@
-package dev.majidhajric.authify.config;
+package dev.majidhajric.authentication.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;

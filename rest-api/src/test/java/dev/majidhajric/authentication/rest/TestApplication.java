@@ -1,6 +1,6 @@
-package dev.majidhajric.authify.rest;
+package dev.majidhajric.authentication.rest;
 
-import dev.majidhajric.authify.RestApiConfig;
+import dev.majidhajric.authentication.RestApiConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;

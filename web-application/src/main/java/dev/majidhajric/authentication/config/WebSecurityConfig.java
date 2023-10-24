@@ -1,4 +1,4 @@
-package dev.majidhajric.authify.config;
+package dev.majidhajric.authentication.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

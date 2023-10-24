@@ -1,13 +1,13 @@
-package dev.majidhajric.authify;
+package dev.majidhajric.authentication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AuthifyApplication {
+public class WebApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuthifyApplication.class, args);
+		SpringApplication.run(WebApplication.class, args);
 	}
 
 }

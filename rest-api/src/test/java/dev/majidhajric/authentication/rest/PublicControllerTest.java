@@ -1,6 +1,6 @@
-package dev.majidhajric.authify.rest;
+package dev.majidhajric.authentication.rest;
 
-import dev.majidhajric.authify.RestApiConfig;
+import dev.majidhajric.authentication.RestApiConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

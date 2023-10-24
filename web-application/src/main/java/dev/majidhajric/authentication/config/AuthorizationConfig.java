@@ -1,4 +1,4 @@
-package dev.majidhajric.authify.config;
+package dev.majidhajric.authentication.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

@@ -1,10 +1,10 @@
-package dev.majidhajric.authify;
+package dev.majidhajric.authentication;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = AuthifyApplication.class)
-class AuthifyApplicationTests {
+@SpringBootTest(classes = WebApplication.class)
+class WebApplicationTests {
 
 	@Test
 	void contextLoads() {
