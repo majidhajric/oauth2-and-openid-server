@@ -11,7 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-@WebMvcTest(PublicController.class)
+
+@WebMvcTest(HealthController.class)
 @AutoConfigureMockMvc
 @Import(RestApiConfig.class)
 @ContextConfiguration(classes = TestApplication.class)
@@ -19,10 +20,11 @@ class PublicControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
     @Test
     void publicHealth() throws Exception {
 
-        mvc.perform(get("/api/public/info")).andExpect(status().isOk());
+        mvc.perform(get("/api/public/health")).andExpect(status().isOk());
     }
 
     @Test
