@@ -1,3 +1,0 @@
-spring:
-  mvc:
-    servlet-path: /api
