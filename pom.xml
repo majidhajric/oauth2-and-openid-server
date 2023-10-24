@@ -19,8 +19,9 @@
 	</properties>
 
 	<modules>
-		<module>application</module>
+		<module>web-application</module>
 		<module>tailwind-css</module>
+		<module>rest-api</module>
 	</modules>
 
 </project>
