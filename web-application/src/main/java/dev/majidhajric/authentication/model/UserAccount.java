@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter(value = AccessLevel.PACKAGE)
+@Setter
 @ToString
 @EqualsAndHashCode
 public class UserAccount implements UserDetails {

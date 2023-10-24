@@ -1,5 +1,9 @@
 server:
   port: 9000
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
 
 servlet:
   context-path: /

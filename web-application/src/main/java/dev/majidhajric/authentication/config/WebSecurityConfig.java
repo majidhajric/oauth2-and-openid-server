@@ -8,6 +8,7 @@ import org.springframework.security.authentication.DefaultAuthenticationEventPub
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
@@ -26,16 +27,27 @@ public class WebSecurityConfig {
                         auth
                                 .requestMatchers(mvcMatcherBuilder.pattern("/favicon.**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/css/**"), mvcMatcherBuilder.pattern("/js/**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/login?**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/"), mvcMatcherBuilder.pattern("/index?**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/login**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).fullyAuthenticated()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(config -> config
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/index.html")
+                        .defaultSuccessUrl("/account")
                         .failureUrl("/login?error=true")
                         .permitAll())
-                .logout(config -> config.logoutSuccessUrl("/"));
+                .logout(config -> config
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true)
+                        .expiredUrl("/login?expired=true"));
         http.anonymous(Customizer.withDefaults());
         return http.build();
     }
