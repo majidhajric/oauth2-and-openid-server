@@ -7,7 +7,7 @@ server:
 
 spring:
   application:
-    name: authify
+    name: oauth2-and-openid-server
 
   sql:
     init:

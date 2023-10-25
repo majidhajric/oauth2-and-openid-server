@@ -1,6 +1,5 @@
 package dev.majidhajric.authentication.web;
 
-import dev.majidhajric.authentication.model.UserAccount;
 import dev.majidhajric.authentication.service.UserAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,9 +16,7 @@ public class AccountController {
 
     @GetMapping({"/account", "/account.html"})
     public String account(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        UserAccount userAccount = (UserAccount) userDetails;
-        userAccount.setPassword("");
-        model.addAttribute("userAccount", userAccount);
+        model.addAttribute("userAccount", userDetails);
         return "account";
     }
 }

@@ -23,6 +23,6 @@ class IndexControllerTest {
     @Test
     @Description("should return index page")
     void index() throws Exception {
-        mvc.perform(get("/")).andExpect(status().isOk());
+        mvc.perform(get("/index")).andExpect(status().isOk());
     }
 }
