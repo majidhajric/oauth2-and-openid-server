@@ -9,9 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,8 +17,6 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class OAuth2SuccessLoginHandler implements AuthenticationSuccessHandler {
-
-    private final OAuth2UserService oAuth2UserService;
 
     private final OAuth2AuthorizedClientService authorizedClientService;
 
@@ -46,8 +41,6 @@ public class OAuth2SuccessLoginHandler implements AuthenticationSuccessHandler {
                 .retrieve()
                 .bodyToMono(Map.class)
                 .block();
-
-        OAuth2User oAuth2User = oAuth2UserService.loadUser(new OAuth2UserRequest(authorizedClient.getClientRegistration(), authorizedClient.getAccessToken()));
 
         response.sendRedirect(request.getContextPath() + "/account");
     }

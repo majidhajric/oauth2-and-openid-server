@@ -4,15 +4,11 @@ import dev.majidhajric.authentication.handler.OAuth2SuccessLoginHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Arrays;
 
@@ -40,20 +36,7 @@ public class OAuth2ClientConfig {
     }
 
     @Bean
-    public OAuth2UserService oauth2UserService() {
-        return new DefaultOAuth2UserService();
-    }
-
-    @Bean
-    public OAuth2SuccessLoginHandler oAuth2SuccessLoginHandler() {
-        return new OAuth2SuccessLoginHandler(oauth2UserService(), authorizedClientService());
-    }
-
-    @Bean
-    public SecurityFilterChain oauth2ClientFilterChain(HttpSecurity http) throws Exception {
-        http.oauth2Login(auth -> auth
-                .loginPage("/login")
-                .successHandler(oAuth2SuccessLoginHandler()));
-        return http.build();
+    public OAuth2SuccessLoginHandler oAuth2SuccessLoginHandler(OAuth2AuthorizedClientService authorizedClientService) {
+        return new OAuth2SuccessLoginHandler(authorizedClientService);
     }
 }

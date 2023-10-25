@@ -1,8 +1,10 @@
 package dev.majidhajric.authentication.config;
 
+import dev.majidhajric.authentication.handler.OAuth2SuccessLoginHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.config.Customizer;
@@ -13,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @RequiredArgsConstructor
@@ -20,7 +23,10 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @Configuration
 public class WebSecurityConfig {
 
+    private final OAuth2SuccessLoginHandler oAuth2SuccessLoginHandler;
+
     @Bean
+    @Order(0)
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
 
@@ -29,12 +35,16 @@ public class WebSecurityConfig {
                         auth
                                 .requestMatchers(mvcMatcherBuilder.pattern("/favicon.**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/css/**"), mvcMatcherBuilder.pattern("/js/**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/login**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/login?**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/oauth2/login/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/login/oauth2/code/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/oauth2/authorization/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/logout**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/register**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/error**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).hasAnyAuthority("OIDC_USER", "ROLE_USER")
+                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).fullyAuthenticated()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/index**")).permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(config -> config
                         .loginPage("/login")
@@ -53,7 +63,9 @@ public class WebSecurityConfig {
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(true)
                         .expiredUrl("/login?expired=true"));
-
+        http.oauth2Login(auth -> auth
+                .loginPage("/oauth2/login")
+                .successHandler(oAuth2SuccessLoginHandler));
         http.anonymous(Customizer.withDefaults());
         return http.build();
     }
