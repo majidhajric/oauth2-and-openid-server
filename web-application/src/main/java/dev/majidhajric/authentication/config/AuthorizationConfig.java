@@ -7,6 +7,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class AuthorizationConfig {
 }

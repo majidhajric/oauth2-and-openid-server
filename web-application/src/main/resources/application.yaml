@@ -35,13 +35,16 @@ spring:
       enabled: true
       path: /h2-console/
 
+  profiles:
+    active: dev
 
 logging:
   config:
     format: [ "%d{ HH:mm:ss.SSS } %-5p [ %c{ 1. } ] %s%e%n" ]
   level:
     dev.majidhajric: debug
-    org.springframework: debug
+    org.springframework: info
     org.springframework.security: debug
     org.springframework.web: debug
     org.hibernate: debug
+

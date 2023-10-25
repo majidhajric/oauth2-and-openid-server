@@ -1,11 +1,18 @@
 package dev.majidhajric.authentication.repository;
 
+import dev.majidhajric.authentication.entity.PrivilegeEntity;
+import dev.majidhajric.authentication.entity.RoleEntity;
 import dev.majidhajric.authentication.entity.UserAccountEntity;
 import dev.majidhajric.authentication.jpa.JpaUserAccountRepository;
+import dev.majidhajric.authentication.model.Privilege;
+import dev.majidhajric.authentication.model.Role;
 import dev.majidhajric.authentication.model.UserAccount;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -14,12 +21,14 @@ public class DefaultUserAccountRepository implements UserAccountRepository {
 
     private final JpaUserAccountRepository jpaUserAccountRepository;
 
+    @Transactional
     @Override
     public UserAccount findByEmail(String email) {
         log.debug("findByEmail: {}", email);
         return toModel(jpaUserAccountRepository.findByEmail(email));
     }
 
+    @Transactional
     @Override
     public UserAccount save(UserAccount userAccount) {
         return toModel(jpaUserAccountRepository.save(toEntity(userAccount)));
@@ -36,6 +45,20 @@ public class DefaultUserAccountRepository implements UserAccountRepository {
         userAccountEntity.setAccountNonExpired(userAccount.isAccountNonExpired());
         userAccountEntity.setCredentialsNonExpired(userAccount.isCredentialsNonExpired());
         userAccountEntity.setAccountNonLocked(userAccount.isAccountNonLocked());
+        userAccountEntity.setRoles(userAccount.getRoles().stream().map(
+                role -> {
+                    RoleEntity roleEntity = new RoleEntity();
+                    roleEntity.setAuthority(role.getAuthority());
+                    roleEntity.setPrivileges(role.getPrivileges().stream().map(
+                            privilege -> {
+                                PrivilegeEntity privilegeEntity = new PrivilegeEntity();
+                                privilegeEntity.setAuthority(privilege.getAuthority());
+                                return privilegeEntity;
+                            }
+                    ).collect(Collectors.toSet()));
+                    return roleEntity;
+                }
+        ).collect(Collectors.toSet()));
         return userAccountEntity;
     }
 
@@ -51,6 +74,18 @@ public class DefaultUserAccountRepository implements UserAccountRepository {
                 .accountNonExpired(accountEntity.isAccountNonExpired())
                 .credentialsNonExpired(accountEntity.isCredentialsNonExpired())
                 .accountNonLocked(accountEntity.isAccountNonLocked())
+                .roles(accountEntity.getRoles().stream().map(re -> {
+                    Role role = new Role();
+                    role.setAuthority(re.getAuthority());
+                    role.setPrivileges(re.getPrivileges().stream().map(
+                            pe -> {
+                                Privilege privilege = new Privilege();
+                                privilege.setAuthority(pe.getAuthority());
+                                return privilege;
+                            }
+                    ).collect(Collectors.toSet()));
+                    return role;
+                }).collect(Collectors.toSet()))
                 .build();
     }
 }

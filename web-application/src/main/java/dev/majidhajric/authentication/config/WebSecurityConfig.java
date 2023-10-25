@@ -26,7 +26,6 @@ public class WebSecurityConfig {
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
-    @Order(0)
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
 
@@ -42,7 +41,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/logout**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/register**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/error**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).fullyAuthenticated()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).authenticated()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/index**")).permitAll()
                                 .anyRequest().authenticated())
