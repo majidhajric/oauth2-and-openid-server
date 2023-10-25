@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(mvcMatcherBuilder.pattern("/logout**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/register**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/error**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).hasAnyRole("USER", "ADMIN")
+                                .requestMatchers(mvcMatcherBuilder.pattern("/account**")).hasAnyAuthority("OIDC_USER", "ROLE_USER")
                                 .requestMatchers(mvcMatcherBuilder.pattern("/")).permitAll()
                                 .anyRequest().authenticated())
                 .formLogin(config -> config
@@ -53,6 +53,7 @@ public class WebSecurityConfig {
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(true)
                         .expiredUrl("/login?expired=true"));
+
         http.anonymous(Customizer.withDefaults());
         return http.build();
     }
