@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.util.Arrays;
 
@@ -36,7 +37,7 @@ public class OAuth2ClientConfig {
     }
 
     @Bean
-    public OAuth2SuccessLoginHandler oAuth2SuccessLoginHandler(OAuth2AuthorizedClientService authorizedClientService) {
+    public AuthenticationSuccessHandler authenticationSuccessHandler(OAuth2AuthorizedClientService authorizedClientService) {
         return new OAuth2SuccessLoginHandler(authorizedClientService);
     }
 }

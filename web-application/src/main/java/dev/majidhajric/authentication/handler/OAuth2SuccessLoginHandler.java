@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -15,6 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.io.IOException;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 public class OAuth2SuccessLoginHandler implements AuthenticationSuccessHandler {
 
@@ -42,6 +44,7 @@ public class OAuth2SuccessLoginHandler implements AuthenticationSuccessHandler {
                 .bodyToMono(Map.class)
                 .block();
 
+        log.debug("userInfo: {}", userInfo);
         //response.sendRedirect(request.getContextPath() + "/account");
     }
 }

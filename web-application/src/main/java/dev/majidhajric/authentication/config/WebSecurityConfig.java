@@ -1,6 +1,5 @@
 package dev.majidhajric.authentication.config;
 
-import dev.majidhajric.authentication.handler.OAuth2SuccessLoginHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -23,7 +23,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @Configuration
 public class WebSecurityConfig {
 
-    private final OAuth2SuccessLoginHandler oAuth2SuccessLoginHandler;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Bean
     @Order(0)
@@ -65,9 +65,9 @@ public class WebSecurityConfig {
                         .expiredUrl("/login?expired=true"));
         http
                 .oauth2Login(auth -> auth
-                        .loginPage("/oauth2/login")
-                        .successHandler(oAuth2SuccessLoginHandler)
-                        .defaultSuccessUrl("/account"));
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/account")
+                        .successHandler(authenticationSuccessHandler));
         http
                 .anonymous(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
