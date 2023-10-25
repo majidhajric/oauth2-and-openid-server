@@ -3,12 +3,12 @@ package dev.majidhajric.authentication.model;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,6 +34,8 @@ public class UserAccount implements UserDetails {
 
     private boolean accountNonLocked = true;
 
+    private Collection<? extends Role> roles = Collections.emptyList();
+
     @Override
     public String getUsername() {
         return email;
@@ -41,9 +43,11 @@ public class UserAccount implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton("ROLE_USER")
-                .stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        Set<GrantedAuthority> result = new HashSet<>();
+        if (roles != null && !roles.isEmpty()) {
+            result.addAll(roles);
+            roles.forEach(role -> result.addAll(role.getPrivileges()));
+        }
+        return result;
     }
 }

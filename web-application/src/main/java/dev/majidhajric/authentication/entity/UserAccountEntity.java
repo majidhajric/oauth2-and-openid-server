@@ -1,11 +1,11 @@
 package dev.majidhajric.authentication.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -13,11 +13,13 @@ import org.hibernate.annotations.UuidGenerator;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class UserAccountEntity {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue
+    @Column(unique = true, nullable = false)
     @UuidGenerator
     private String id;
 
@@ -38,4 +40,11 @@ public class UserAccountEntity {
 
     @Column(nullable = false)
     private boolean credentialsNonExpired = true;
+
+    @ManyToMany
+    @JoinTable(name = "user_account_role",
+            joinColumns = @JoinColumn(name = "user_account_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<RoleEntity> roles = new HashSet<>();
 }
