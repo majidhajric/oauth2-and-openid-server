@@ -63,10 +63,14 @@ public class WebSecurityConfig {
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(true)
                         .expiredUrl("/login?expired=true"));
-        http.oauth2Login(auth -> auth
-                .loginPage("/oauth2/login")
-                .successHandler(oAuth2SuccessLoginHandler));
-        http.anonymous(Customizer.withDefaults());
+        http
+                .oauth2Login(auth -> auth
+                        .loginPage("/oauth2/login")
+                        .successHandler(oAuth2SuccessLoginHandler)
+                        .defaultSuccessUrl("/account"));
+        http
+                .anonymous(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 

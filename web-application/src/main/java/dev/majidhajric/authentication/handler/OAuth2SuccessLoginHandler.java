@@ -42,6 +42,6 @@ public class OAuth2SuccessLoginHandler implements AuthenticationSuccessHandler {
                 .bodyToMono(Map.class)
                 .block();
 
-        response.sendRedirect(request.getContextPath() + "/account");
+        //response.sendRedirect(request.getContextPath() + "/account");
     }
 }
