@@ -14,13 +14,21 @@ import java.util.Collections;
 @Setter
 @ToString(onlyExplicitlyIncluded = true)
 public class Role implements GrantedAuthority {
-    
+
     private final String ROLE_PREFIX = "ROLE_";
 
     @ToString.Include
     private String authority;
 
     private Collection<? extends Privilege> privileges = Collections.emptyList();
+
+    public Role(String authority) {
+        if (authority != null && !authority.startsWith(ROLE_PREFIX)) {
+            this.authority = ROLE_PREFIX + authority;
+        } else {
+            this.authority = authority;
+        }
+    }
 
     @Override
     public String getAuthority() {

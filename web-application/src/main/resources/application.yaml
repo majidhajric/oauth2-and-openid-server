@@ -8,6 +8,8 @@ server:
 spring:
   application:
     name: oauth2-and-openid-server
+  messages:
+    basename: i18n/messages
 
   sql:
     init:
@@ -28,7 +30,7 @@ spring:
 
   hibernate:
     dialect: org.hibernate.dialect.H2Dialect
-    ddl-auto: none
+    ddl-auto: update
 
   h2:
     console:
@@ -48,3 +50,11 @@ logging:
     org.springframework.web: debug
     org.hibernate: debug
 
+configuration:
+  remember-me: false
+  email-as-username: true
+  require-email-verification: false
+  require-password-confirmation: true
+  require-password-complexity: true
+  disable-social-sign-in: false
+  enable-multi-factor: true

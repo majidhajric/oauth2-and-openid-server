@@ -1,4 +1,4 @@
-package dev.majidhajric.authentication.dto;
+package dev.majidhajric.authentication.command;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,17 +10,13 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class RegisterUserAccountDTO {
+public class RegisterUserAccountCommand {
 
     @NotEmpty
     @Email
     private String email;
 
     @NotEmpty
-    @Size(min = 8)
+    @Size(min = 6, max = 100)
     private String password;
-
-    @NotEmpty
-    @Size(min = 8)
-    private String confirmPassword;
 }

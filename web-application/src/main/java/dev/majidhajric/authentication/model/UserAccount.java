@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,15 +25,15 @@ public class UserAccount implements UserDetails {
 
     private String password;
 
-    private boolean enabled = true;
+    private boolean enabled;
 
-    private boolean accountNonExpired = true;
+    private boolean accountNonExpired;
 
-    private boolean credentialsNonExpired = true;
+    private boolean credentialsNonExpired;
 
-    private boolean accountNonLocked = true;
+    private boolean accountNonLocked;
 
-    private Collection<? extends Role> roles = Collections.emptyList();
+    private Collection<? extends Role> roles;
 
     @Override
     public String getUsername() {

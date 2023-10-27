@@ -7,9 +7,10 @@ insert into privilege_entity(id, authority) values(2, 'WRITE');
 insert into privilege_entity(id, authority) values(3, 'DELETE');
 insert into privilege_entity(id, authority) values(4, 'EXECUTE');
 
-insert into role_entity(id, authority) values(1, 'USER');
-insert into role_entity(id, authority) values(2, 'ADVANCED_USER');
-insert into role_entity(id, authority) values(3, 'ADMIN');
+insert into role_entity(id, authority) values(0, 'ROLE_NEW_USER');
+insert into role_entity(id, authority) values(1, 'ROLE_USER');
+insert into role_entity(id, authority) values(2, 'ROLE_ADVANCED_USER');
+insert into role_entity(id, authority) values(3, 'ROLE_ADMIN');
 
 insert into role_privilege(role_id, privilege_id) values(1, 1);
 insert into role_privilege(role_id, privilege_id) values(1, 2);

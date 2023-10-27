@@ -18,7 +18,7 @@ public class UserAccountEntity {
 
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true, nullable = false)
     @UuidGenerator
     private String id;
