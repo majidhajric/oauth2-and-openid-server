@@ -2,7 +2,6 @@ package dev.majidhajric.authentication.web;
 
 import dev.majidhajric.authentication.command.RegisterUserAccountCommand;
 import dev.majidhajric.authentication.exception.UserAccountExistsException;
-import dev.majidhajric.authentication.exception.WeakPasswordException;
 import dev.majidhajric.authentication.model.UserAccount;
 import dev.majidhajric.authentication.service.AuthenticationService;
 import dev.majidhajric.authentication.service.RegisterUserAccountService;
@@ -34,20 +33,19 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") RegisterUserAccountCommand user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            user.setPassword("");
+            return "register";
+        }
         try {
             registerUserAccountService.createUserAccount(user);
             authenticationService.authenticate(user.getEmail(), user.getPassword());
         } catch (UserAccountExistsException e) {
             result.rejectValue("email", "validation.account.exists", "Account already exists");
-        } catch (WeakPasswordException e) {
-            result.rejectValue("password", "validation.password.weak", "Password is too weak");
+            return "register";
         } catch (Exception e) {
             log.error("Failed to register user: {}", user.getEmail(), e);
             result.reject("registration.failure", "Registration failed");
-        }
-
-        if (result.hasErrors()) {
-            model.addAttribute("command", user);
             return "register";
         }
         return "redirect:/";
