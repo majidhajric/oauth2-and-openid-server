@@ -28,3 +28,32 @@ alter table if exists user_account_role add constraint FK4i98r94r1pscfn4vupyf5iv
 
 alter table if exists role_privilege add constraint FK63e4kry7o8rkut8m6v0p9p7ch foreign key (role_id) references role_entity;
 alter table if exists role_privilege add constraint FK63e4kry7o8rkut8m6v0p9p8ch foreign key (privilege_id) references privilege_entity;
+
+
+drop table client_registration_entity_scopes if exists cascade;
+drop table client_registration_entity if exists cascade;
+
+create table client_registration_entity (
+    id bigint not null,
+    authorization_grant_type varbinary(255),
+    authorization_uri varchar(255),
+    client_authentication_method varbinary(255),
+    client_id varchar(255) not null,
+    client_name varchar(255),
+    client_secret varchar(255) not null,
+    issuer_uri varchar(255),
+    jwk_set_uri varchar(255),
+    redirect_uri varchar(255),
+    registration_id varchar(255) not null unique,
+    token_uri varchar(255),
+    user_info_uri varchar(255),
+    user_name_attribute_name varchar(255),
+    primary key (id)
+);
+
+create table client_registration_entity_scopes (
+    client_registration_entity_id bigint not null,
+    scopes varchar(255)
+);
+
+alter table if exists client_registration_entity_scopes add constraint FK2fxwgeipi6ufr8ewv0wk12r14 foreign key (client_registration_entity_id) references client_registration_entity;

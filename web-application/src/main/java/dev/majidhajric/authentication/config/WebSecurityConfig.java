@@ -39,7 +39,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(mvcMatcherBuilder.pattern("/favicon.**")).permitAll()
-                                .requestMatchers(mvcMatcherBuilder.pattern("/css/**"), mvcMatcherBuilder.pattern("/js/**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/css/**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/js/**")).permitAll()
+                                .requestMatchers(mvcMatcherBuilder.pattern("/img/**")).permitAll()
                                 .requestMatchers(mvcMatcherBuilder.pattern("/login?**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/oauth2/login/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/login/oauth2/code/**")).permitAll()

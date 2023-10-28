@@ -30,7 +30,7 @@ spring:
 
   hibernate:
     dialect: org.hibernate.dialect.H2Dialect
-    ddl-auto: update
+    ddl-auto: create-drop
 
   mail:
     host: localhost
@@ -38,22 +38,14 @@ spring:
 
   h2:
     console:
-      enabled: true
-      path: /h2-console/
+      enabled: false
 
   profiles:
     active: dev
 
 logging:
-  config:
-    format: [ "%d{ HH:mm:ss.SSS } %-5p [ %c{ 1. } ] %s%e%n" ]
   level:
-    dev.majidhajric: debug
-    org.springframework: info
-    org.springframework.security: debug
-    org.springframework.web: debug
-    org.hibernate: debug
-
+    root: info
 
 configuration:
   jwt:
