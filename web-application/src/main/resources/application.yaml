@@ -57,3 +57,11 @@ configuration:
   require-password-complexity: true
   disable-social-sign-in: false
   enable-multi-factor: true
+  policy:
+    length:
+      min: 8
+      max: 32
+    uppercase-count: 1
+    lowercase-count: 1
+    digit-count: 1
+    special-count: 1

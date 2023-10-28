@@ -1,10 +1,13 @@
 package dev.majidhajric.authentication.command;
 
+import dev.majidhajric.authentication.validation.ValidPassword;
+import dev.majidhajric.authentication.validation.ValidRegisterUserCommand;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+@ValidRegisterUserCommand
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,7 +19,7 @@ public class RegisterUserAccountCommand {
     @Email
     private String email;
 
-    @NotEmpty
-    @Size(min = 6, max = 100)
+    @NotNull
+    @ValidPassword
     private String password;
 }
