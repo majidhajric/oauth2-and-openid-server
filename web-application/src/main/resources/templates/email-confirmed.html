@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg-gray-200 flex items-center justify-center h-screen">
+<div class="bg-white p-8 rounded shadow-md w-1/3">
+    <h2 class="text-2xl font-semibold mb-4">Email confirmed</h2>
+    <div sec:authorize="isAuthenticated()">
+        <p class="mb-4">Hello,&nbsp;<span sec:authentication="name"></span>!&nbsp;What would you like to do.</p>
+        <p class="mb-4"><a href="/logout" th:href="@{/logout}">Click here to logout!</a></p>
+        <p><a href="/index" th:href="@{/index}">Click here to go home!</a></p>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <p class="mb-4">Your email is confirmed.</p>
+        <p><a href="/login" th:href="@{/login}">Click here to proceed to log in!</a></p>
+    </div>
+
+</div>
+</body>
+</html>

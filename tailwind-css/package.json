@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tailwindcss -i src/input.css -o ../application/src/main/resources/static/css/styles.css"
+    "build": "npx tailwindcss -i src/input.css -o ../web-application/src/main/resources/static/css/styles.css",
+    "build-watch": "npx tailwindcss -i src/input.css -o ../web-application/src/main/resources/static/css/styles.css --watch"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",

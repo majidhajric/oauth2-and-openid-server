@@ -1,6 +1,7 @@
 package dev.majidhajric.authentication.config;
 
 import dev.majidhajric.authentication.handler.OAuth2SuccessLoginHandler;
+import dev.majidhajric.authentication.repository.DefaultClientRegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,8 @@ import java.util.Arrays;
 @Configuration
 public class OAuth2ClientConfig {
 
-    @Bean
+    private final DefaultClientRegistrationRepository clientRegistrationRepository;
+
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new InMemoryClientRegistrationRepository(Arrays.asList(
                 CommonOAuth2Provider.GOOGLE.getBuilder("google")
@@ -33,7 +35,7 @@ public class OAuth2ClientConfig {
 
     @Bean
     public OAuth2AuthorizedClientService authorizedClientService() {
-        return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository());
+        return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
     }
 
     @Bean

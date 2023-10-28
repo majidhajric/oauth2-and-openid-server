@@ -1,8 +1,9 @@
 package dev.majidhajric.authentication.repository;
 
-import dev.majidhajric.authentication.entity.PrivilegeEntity;
 import dev.majidhajric.authentication.entity.RoleEntity;
 import dev.majidhajric.authentication.entity.UserAccountEntity;
+import dev.majidhajric.authentication.jpa.JpaPrivilegeRepository;
+import dev.majidhajric.authentication.jpa.JpaRoleRepository;
 import dev.majidhajric.authentication.jpa.JpaUserAccountRepository;
 import dev.majidhajric.authentication.model.Privilege;
 import dev.majidhajric.authentication.model.Role;
@@ -21,6 +22,10 @@ public class DefaultUserAccountRepository implements UserAccountRepository {
 
     private final JpaUserAccountRepository jpaUserAccountRepository;
 
+    private final JpaRoleRepository jpaRoleRepository;
+
+    private final JpaPrivilegeRepository jpaPrivilegeRepository;
+
     @Transactional
     @Override
     public UserAccount findByEmail(String email) {
@@ -38,7 +43,10 @@ public class DefaultUserAccountRepository implements UserAccountRepository {
         if (userAccount == null) {
             return null;
         }
-        UserAccountEntity userAccountEntity = new UserAccountEntity();
+        UserAccountEntity userAccountEntity = jpaUserAccountRepository.findByEmail(userAccount.getEmail());
+        if (userAccountEntity == null) {
+            userAccountEntity = new UserAccountEntity();
+        }
         userAccountEntity.setEmail(userAccount.getEmail());
         userAccountEntity.setPassword(userAccount.getPassword());
         userAccountEntity.setEnabled(userAccount.isEnabled());
@@ -47,13 +55,11 @@ public class DefaultUserAccountRepository implements UserAccountRepository {
         userAccountEntity.setAccountNonLocked(userAccount.isAccountNonLocked());
         userAccountEntity.setRoles(userAccount.getRoles().stream().map(
                 role -> {
-                    RoleEntity roleEntity = new RoleEntity();
+                    RoleEntity roleEntity = jpaRoleRepository.findByAuthority(role.getAuthority());
                     roleEntity.setAuthority(role.getAuthority());
                     roleEntity.setPrivileges(role.getPrivileges().stream().map(
                             privilege -> {
-                                PrivilegeEntity privilegeEntity = new PrivilegeEntity();
-                                privilegeEntity.setAuthority(privilege.getAuthority());
-                                return privilegeEntity;
+                                return jpaPrivilegeRepository.findByAuthority(privilege.getAuthority());
                             }
                     ).collect(Collectors.toSet()));
                     return roleEntity;
