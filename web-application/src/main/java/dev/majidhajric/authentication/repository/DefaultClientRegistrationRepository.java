@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+
 @RequiredArgsConstructor
 @Slf4j
 @Component
@@ -25,6 +27,10 @@ public class DefaultClientRegistrationRepository implements ClientRegistrationRe
             return toModel(entity);
         }
         return null;
+    }
+
+    public Collection<ClientRegistration> findAll() {
+        return jpaClientRegistrationRepository.findAll().stream().map(this::toModel).toList();
     }
 
     private ClientRegistration toModel(ClientRegistrationEntity entity) {
