@@ -43,7 +43,10 @@ public class DefaultUserAccountRepository implements UserAccountRepository {
         if (userAccount == null) {
             return null;
         }
-        UserAccountEntity userAccountEntity = new UserAccountEntity();
+        UserAccountEntity userAccountEntity = jpaUserAccountRepository.findByEmail(userAccount.getEmail());
+        if (userAccountEntity == null) {
+            userAccountEntity = new UserAccountEntity();
+        }
         userAccountEntity.setEmail(userAccount.getEmail());
         userAccountEntity.setPassword(userAccount.getPassword());
         userAccountEntity.setEnabled(userAccount.isEnabled());

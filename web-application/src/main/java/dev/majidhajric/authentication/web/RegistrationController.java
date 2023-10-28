@@ -3,6 +3,7 @@ package dev.majidhajric.authentication.web;
 import dev.majidhajric.authentication.command.RegisterUserAccountCommand;
 import dev.majidhajric.authentication.exception.UserAccountExistsException;
 import dev.majidhajric.authentication.exception.WeakPasswordException;
+import dev.majidhajric.authentication.model.UserAccount;
 import dev.majidhajric.authentication.service.AuthenticationService;
 import dev.majidhajric.authentication.service.RegisterUserAccountService;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -39,6 +41,9 @@ public class RegistrationController {
             result.rejectValue("email", "validation.account.exists", "Account already exists");
         } catch (WeakPasswordException e) {
             result.rejectValue("password", "validation.password.weak", "Password is too weak");
+        } catch (Exception e) {
+            log.error("Failed to register user: {}", user.getEmail(), e);
+            result.reject("registration.failure", "Registration failed");
         }
 
         if (result.hasErrors()) {
@@ -46,5 +51,11 @@ public class RegistrationController {
             return "register";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/confirm-email")
+    public String confirmEmail(@RequestParam String token, Model model) {
+        UserAccount userAccount = registerUserAccountService.confirmEmail(token);
+        return "email-confirmed";
     }
 }

@@ -1,5 +1,6 @@
 package dev.majidhajric.authentication.service;
 
+import dev.majidhajric.authentication.model.UserAccount;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,15 @@ public class AuthenticationService {
     public void authenticate(String username, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        log.debug("authentication: {}", authentication);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+        HttpSession session = request.getSession(true);
+        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
+    }
+
+    public void authenticate(UserAccount userAccount) {
+        Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(userAccount.getEmail(), "N/A", userAccount.getRoles());
         log.debug("authentication: {}", authentication);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);

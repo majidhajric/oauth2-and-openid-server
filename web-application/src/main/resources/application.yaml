@@ -32,6 +32,10 @@ spring:
     dialect: org.hibernate.dialect.H2Dialect
     ddl-auto: update
 
+  mail:
+    host: localhost
+    port: 2525
+
   h2:
     console:
       enabled: true
@@ -50,7 +54,10 @@ logging:
     org.springframework.web: debug
     org.hibernate: debug
 
+
 configuration:
+  jwt:
+    secret: secret
   remember-me: false
   email-as-username: true
   require-email-verification: false
