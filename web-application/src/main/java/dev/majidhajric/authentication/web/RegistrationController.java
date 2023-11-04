@@ -3,11 +3,13 @@ package dev.majidhajric.authentication.web;
 import dev.majidhajric.authentication.command.RegisterUserAccountCommand;
 import dev.majidhajric.authentication.exception.UserAccountExistsException;
 import dev.majidhajric.authentication.model.UserAccount;
+import dev.majidhajric.authentication.repository.DefaultClientRegistrationRepository;
 import dev.majidhajric.authentication.service.AuthenticationService;
 import dev.majidhajric.authentication.service.RegisterUserAccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -25,9 +29,17 @@ public class RegistrationController {
 
     private final RegisterUserAccountService registerUserAccountService;
 
+    private final DefaultClientRegistrationRepository clientRegistrationRepository;
+
     @GetMapping({"/register", "/register.html"})
     public String registration(Model model) {
         model.addAttribute("user", new RegisterUserAccountCommand());
+        List<String> clients = clientRegistrationRepository.findAll()
+                .stream()
+                .map(ClientRegistration::getRegistrationId)
+                .map(String::toLowerCase)
+                .toList();
+        model.addAttribute("clients", clients);
         return "register";
     }
 

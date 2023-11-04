@@ -11,31 +11,6 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 
     <style>
-        .input-group {
-            position: relative;
-            margin: 10px 0;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 10px 15px;
-            padding-left: 40px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            outline: none;
-            transition: all 0.3s ease;
-            font-size: 16px;
-            font-family: inherit;
-        }
-        .input-group  span.material-symbols-outlined {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .password-field-container {
-            position: relative;
-        }
         #show-password {
             position: absolute;
             cursor: pointer;
@@ -52,7 +27,7 @@
     <p class="mt-1 mb-4 flex font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
         Enter your details to register.
     </p>
-    <form class="flex flex-col mt-8 mb-2 w-80 max-w-sm" method="post" th:action="@{/register}"
+    <form class="flex flex-col mt-8 mb-4 w-80 max-w-sm" method="post" th:action="@{/register}"
           th:object="${user}">
         <div class="mb-4 flex flex-col gap-6">
             <div class="relative mb-4 h-11 w-full min-w-[200px]">
@@ -114,13 +89,25 @@
         <p class="mt-4 block text-center font-sans text-base font-normal leading-relaxed text-gray-700 antialiased">
             Already have an account?
             <a class="font-medium text-pink-500 transition-colors hover:text-blue-700"
-               href="#">
+               href="/login" th:href="@{/login}">
                 Login
             </a>
         </p>
     </form>
+    <div th:if="${clients}">
+        <p class="mb-4 text-center text-slate-500">Or continue with:</p>
+
+        <div class="my-4 flex justify-around" th:each="client : ${clients}">
+            <a th:href="@{'/oauth2/authorization/' + ${client}}">
+                <button class="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                    <img alt="icon" class="w-8 h-8" src="../static/img/google.png"
+                         th:src="@{'/img/' + ${client} + '.png'}">
+                </button>
+            </a>
+        </div>
+    </div>
 </div>
 <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
-<script th:src="@{/js/register.js}"></script>
+<script th:src="@{/js/show-password.js}"></script>
 </body>
 </html>
