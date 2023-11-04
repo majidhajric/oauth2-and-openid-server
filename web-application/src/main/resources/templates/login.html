@@ -10,35 +10,41 @@
 </head>
 <body class="bg-gray-200 flex items-center justify-center h-screen">
 <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
-    <h2 class="text-2xl mb-5 font-semilight text-slate-500">Welcome back!</h2>
-    <form class="mb-5" method="post" th:action="@{/login}">
-        <div class="mb-4" th:if="${param.error}">
+    <h2 class="text-2xl mb-5 font-semilight text-slate-500">Nice to see you again!</h2>
+    <form method="post" th:action="@{/login}">
+        <div class="mb-4" th:if="${status=='invalid_email_or_password'}">
             <p class="text-red-500">Invalid email or password</p>
         </div>
-        <div class="mb-4" th:if="${param.logout}">
+        <div class="mb-4" th:if="${status=='logged_out'}">
             <p class="text-green-500">You have been logged out</p>
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2" for="email">Email:</label>
+            <i class="material-icons">face</i>
+            <label class="block text-gray-700 font-light mb-2" for="email">Email:</label>
             <input class="border rounded w-full py-2 px-3" id="email" name="email" placeholder="email@example.com"
                    type="text">
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2" for="password">Password:</label>
+            <i class="material-icons">key</i>
+            <label class="block text-gray-700 font-light mb-2" for="password">Password:</label>
             <input class="border rounded w-full py-2 px-3 mb-2" id="password" name="password" placeholder="password"
                    type="password">
-            <a class="block text-right text-blue-500" href="/forgot-password" th:href="@{/forgot-password}">Forgot
+            <span class="material-symbols-outlined" id="show-password">visibility</span>
+            <a class="block text-right text-blue-400" href="/forgot-password" th:href="@{/forgot-password}">Forgot
                 Password</a>
         </div>
         <div class="py-2">
             <button class="block w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" type="submit">
                 Login
+                <span class="material-symbols-outlined">input</span>
             </button>
         </div>
     </form>
     <div class="py-2">
         <p class="py-2 text-center text-slate-500">Don't have an account?&nbsp;
-            <a class="text-slate-600 text-uppercase font-semibold" href="/register" th:href="@{/register}">Register</a>
+            <a class="text-slate-600 text-uppercase font-semibold" href="/register" th:href="@{/register}">
+                Register<i class="material-icons-outline ml-2">send</i>
+            </a>
         </p>
     </div>
 
