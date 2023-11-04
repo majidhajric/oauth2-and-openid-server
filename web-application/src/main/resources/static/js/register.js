@@ -3,12 +3,10 @@ document.addEventListener("DOMContentLoaded", function(){
       var passwordField = document.getElementById("password");
       if (passwordField.type === "password") {
         passwordField.type = "text";
-        this.classList.remove("fa-eye");
-        this.classList.add("fa-eye-slash");
+        this.innerHTML="visibility_off";
       } else {
         passwordField.type = "password";
-        this.classList.remove("fa-eye-slash");
-        this.classList.add("fa-eye");
+        this.innerHTML="visibility";
       }
     });
 });
